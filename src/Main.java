@@ -1,17 +1,12 @@
 import java.util.*;
 
 public class Main {
-
-    // TODO:
-//    Perform (list out all performers and allow user to select one, then enter a city)
-//*Bonus* Find Best Venue (Find what venue gives the highest performance rating to all performers)
-//    Exit
     public static void main(String[] args) {
-        String[] possibleVenues = {"Thiruvananthapuram", "Panaji", "Gandhinagar", "Chandigarh", "Shimla", "Srinagar",
-                                   "Ranchi", "Bengaluru", "Thiruvananthapuram", "Bhopal", "Mumbai", "Imphal", "Shillong",
-                                   "Aizawl", "Kohima", "Bhubaneswar", "Jaipur", "Gangtok", "Chennai", "Agartala",
-                                   "Lucknow", "Dehradun", "Kolkata", "Raipur", "Dispur", "Panaji", "Puducherry",
-                                   "Amaravati", "Hyderabad", "Itanagar", "Guwahati", "New Delhi"};
+        String[] possibleVenues = {"thiruvananthapuram", "panaji", "gandhinagar", "chandigarh", "shimla", "srinagar",
+                                   "ranchi", "bengaluru", "bhopal", "mumbai", "imphal", "shillong",
+                                   "aizawl", "kohima", "bhubaneswar", "jaipur", "gangtok", "chennai", "agartala",
+                                   "lucknow", "dehradun", "kolkata", "raipur", "dispur", "panaji", "puducherry",
+                                   "amaravati", "hyderabad", "itanagar", "guwahati", "new delhi"};
 
         Random random = new Random();
         Scanner sc = new Scanner(System.in);
@@ -50,9 +45,14 @@ public class Main {
             } else if (input == 1) {
                 listOrchestra(performers);
             } else if (input == 2) {
-                addPerformer();
+                for (int i = 0; i < performers.length; i++) {
+                    if (performers[i] == null) {
+                        performers[i] = addPerformer();
+                        break;
+                    }
+                }
             } else if (input == 3) {
-                continue; //TODO: make the perform function
+                Perform(performers);
             } else if (input == 4) {
                 FindBestPerformance(performers);
             } else if (input == 5) {
@@ -68,41 +68,23 @@ public class Main {
         }
     }
 
-    public static double[] bubbleSort(double[] arr, int[] indices) {
+    public static double[] bubbleSort(double[] arr, Performer[] performers) {
         int n = arr.length;
-
-        // Iterate over the array, starting from the end and working backwards
-        for (int i = n - 1; i > 0; i--) {
-            // Flag to track whether any swaps were made in the current iteration
-            boolean swapped = false;
-
-            // Iterate over the array up to the current position
-            for (int j = 0; j < i; j++) {
-                // If the current element is greater than the next element, swap them
-                if (arr[j] > arr[j + 1]) {
+        for (int i = 0; i < n-1; i++)
+            for (int j = 0; j < n-i-1; j++)
+                if (arr[j] > arr[j+1]) {
                     double temp = arr[j];
-                    int tempo = indices[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
 
-                    arr[j] = arr[j + 1];
-                    indices[j] = indices[j + 1];
-
-                    arr[j + 1] = temp;
-                    indices[j + 1] = tempo;
-
-                    swapped = true;
+                    Performer tempPerformer = performers[j];
+                    performers[j] = performers[j+1];
+                    performers[j+1] = tempPerformer;
                 }
-            }
-
-            // If no swaps were made in the current iteration, the array is already sorted
-            if (!swapped) {
-                break;
-            }
-        }
-
         return arr;
     }
 
-    public static int[] bubbleSort1(double[] arr, int[] indices) {
+    /*public static int[] bubbleSort1(double[] arr, int[] indices) {
         int n = arr.length;
 
         // Iterate over the array, starting from the end and working backwards
@@ -134,13 +116,15 @@ public class Main {
         }
 
         return indices;
-    }
+    }*/
 
     public static void listOrchestra(Performer[] performers) {
         for (int i = 0; i < performers.length; i++) {
-            System.out.println("Name: " + performers[i].getName());
-            System.out.println("Instrument: " + performers[i].getInstrument());
-            System.out.println("Average rating: " + performers[i].aveRating());
+            if (performers[i] != null) {
+                System.out.println("Name: " + performers[i].getName());
+                System.out.println("Instrument: " + performers[i].getInstrument());
+                System.out.println("Average rating: " + performers[i].aveRating());
+            }
         }
     }
 
@@ -160,11 +144,18 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         for (int i = 0; i < performers.length; i++) {
-            System.out.println((i+1) + "performer: " + performers[i].getName());
+            if (performers[i] != null) {
+                System.out.println((i+1) + " " + "performer: " + performers[i].getName());
+            }
         }
 
         System.out.println("Please select a performer by their number: ");
         int perfNumber = (sc.nextInt() - 1);
+
+        System.out.println("Please enter the city where you want them to perform: ");
+        String input = sc.next();
+
+        performers[perfNumber].perform(input);
     }
 
     public static void FindBestPerformance(Performer[] performers) {
@@ -173,12 +164,17 @@ public class Main {
         double[] currentRating;
 
         for (int i = 0; i < performers.length; i++) {
-            currentRating = performers[i].getRatings();
+            if (performers[i] != null) {
+                currentRating = performers[i].getRatings();
+            } else {
+                break;
+            }
+
             double greatest = 0;
 
             for (int j = 0; j < currentRating.length; j++) {
-                if (currentRating[i] > greatest) {
-                    greatest = currentRating[i];
+                if (currentRating[j] > greatest) {
+                    greatest = currentRating[j];
                 }
             }
 
@@ -199,49 +195,51 @@ public class Main {
     }
 
     public static Performer[] sortPerformers(Performer[] performers) {
-        double[] averageRatings = new double[10];
-        int[] indices = new int[10];
+        double[] averageRatings = new double[performers.length];
 
         for (int i = 0; i < performers.length; i++) {
-            averageRatings[i] = performers[i].aveRating();
-            indices[i] = i;
-        }
-
-        double[] sorterAverageRatings = bubbleSort(averageRatings, indices);
-        int[] indexes = bubbleSort1(averageRatings, indices);
-
-        for (int i = 0; i < indices.length; i++) {
-            if (performers[i] != performers[indices[i]]) {
-                performers[i] = performers[indexes[i]];
+            if (performers[i] != null) {
+                averageRatings[i] = performers[i].aveRating();
             } else {
                 continue;
             }
         }
 
-        return performers;
+        double[] sortedAverageRatings = bubbleSort(averageRatings, performers);
+        Performer[] sortedPerformers = new Performer[performers.length];
+
+        for (int i = 0; i < performers.length; i++) {
+            int index = Arrays.binarySearch(averageRatings, sortedAverageRatings[i]);
+            sortedPerformers[i] = performers[index];
+        }
+
+        return sortedPerformers;
     }
 
     public static void listByVenue(Performer[] performers) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Please enter a venue: ");
-        String input = sc.nextLine();
+        String input = sc.next();
+        input = input.toLowerCase();
         int counter = 0;
         int[] indices = new int[10];
         int currentIndex = -1;
 
         for (int i = 0; i < performers.length; i++) {
-            String[] vens = performers[i].getVenues();
-            currentIndex ++;
+            if (performers[i] != null) {
+                String[] vens = performers[i].getVenues();
+                currentIndex ++;
 
-            for (int j = 0; j < vens.length; j++) {
-                if (vens[i].equals(input)) {
-                    counter ++;
-                    indices[currentIndex] = i;
+                for (int j = 0; j < vens.length; j++) {
+                    if (vens[j].equals(input)) {
+                        counter ++;
+                        indices[currentIndex] = i;
+                    }
                 }
             }
         }
 
-        for (int i = 0; i < performers.length; i++) {
+        for (int i = 0; i < counter; i++) {
             System.out.println(performers[indices[i]].getName());
         }
     }

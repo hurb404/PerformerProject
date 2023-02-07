@@ -23,13 +23,18 @@ public class Performer {
     }
 
     public void perform(String venue) {
-        for (int i = 0; i < ratings.length; i++) {
-            if (ratings[i] == 0) {
-                ratings[i] = random.nextDouble(1.0, 10.0);
-            }
+        if (venues[0] == null) {
+            venues = new String[]{venue};
+            ratings = new double[]{random.nextDouble(1.0, 10.0)};
+        } else {
+            for (int i = 0; i < ratings.length; i++) {
+                if (ratings[i] == 0) {
+                    ratings[i] = random.nextDouble(1.0, 10.0);
+                }
 
-            if(venues[i].equals(null)) {
-                venues[i] = venue;
+                if(venues[i].equals(null)) {
+                    venues[i] = venue;
+                }
             }
         }
     }
