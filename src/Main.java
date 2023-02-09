@@ -19,15 +19,10 @@ public class Main {
         performers[4] = new Performer("Anshuman", "Tabla");
 
         for (int i = 0; i < 5; i++) {
-
-            if (performers[i] == null) {
-                continue;
-            } else {
-                performers[i].perform(possibleVenues[random.nextInt(0, possibleVenues.length)]);
+            for (int j = 0; j < 5; j++) {
+                performers[i].perform(possibleVenues[j]);
             }
         }
-
-        //test
 
         boolean running = true;
         while (running) {
@@ -38,11 +33,10 @@ public class Main {
             System.out.println("4. Find Best Performance");
             System.out.println("5. Sort Performers");
             System.out.println("6. List by Venue");
-            System.out.println("7. Find Best Venue");
-            System.out.println("8. Exit");
+            System.out.println("7. Exit");
             int input = sc.nextInt();
 
-            if (input == 8) {
+            if (input == 7) {
                 break;
             } else if (input == 1) {
                 listOrchestra(performers);
@@ -61,8 +55,6 @@ public class Main {
                 sortPerformers(performers);
             } else if (input == 6) {
                 listByVenue(performers);
-            } else if (input == 7) {
-                continue; //TODO: make FindBestVenue function
             } else {
                 System.out.println("Please enter a valid input - RESTARTING PROGRAM");
                 continue;
