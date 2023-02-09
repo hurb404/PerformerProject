@@ -3,10 +3,10 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         String[] possibleVenues = {"thiruvananthapuram", "panaji", "gandhinagar", "chandigarh", "shimla", "srinagar",
-                                   "ranchi", "bengaluru", "bhopal", "mumbai", "imphal", "shillong",
-                                   "aizawl", "kohima", "bhubaneswar", "jaipur", "gangtok", "chennai", "agartala",
-                                   "lucknow", "dehradun", "kolkata", "raipur", "dispur", "panaji", "puducherry",
-                                   "amaravati", "hyderabad", "itanagar", "guwahati", "new delhi"};
+                "ranchi", "bengaluru", "bhopal", "mumbai", "imphal", "shillong",
+                "aizawl", "kohima", "bhubaneswar", "jaipur", "gangtok", "chennai", "agartala",
+                "lucknow", "dehradun", "kolkata", "raipur", "dispur", "panaji", "puducherry",
+                "amaravati", "hyderabad", "itanagar", "guwahati", "new delhi"};
 
         Random random = new Random();
         Scanner sc = new Scanner(System.in);
@@ -83,40 +83,6 @@ public class Main {
                 }
         return arr;
     }
-
-    /*public static int[] bubbleSort1(double[] arr, int[] indices) {
-        int n = arr.length;
-
-        // Iterate over the array, starting from the end and working backwards
-        for (int i = n - 1; i > 0; i--) {
-            // Flag to track whether any swaps were made in the current iteration
-            boolean swapped = false;
-
-            // Iterate over the array up to the current position
-            for (int j = 0; j < i; j++) {
-                // If the current element is greater than the next element, swap them
-                if (arr[j] > arr[j + 1]) {
-                    double temp = arr[j];
-                    int tempo = indices[j];
-
-                    arr[j] = arr[j + 1];
-                    indices[j] = indices[j + 1];
-
-                    arr[j + 1] = temp;
-                    indices[j + 1] = tempo;
-
-                    swapped = true;
-                }
-            }
-
-            // If no swaps were made in the current iteration, the array is already sorted
-            if (!swapped) {
-                break;
-            }
-        }
-
-        return indices;
-    }*/
 
     public static void listOrchestra(Performer[] performers) {
         for (int i = 0; i < performers.length; i++) {
@@ -240,7 +206,11 @@ public class Main {
         }
 
         for (int i = 0; i < counter; i++) {
-            System.out.println(performers[indices[i]].getName());
+            if (counter != 0) {
+                if (performers[indices[i]] != null) {
+                    System.out.println(performers[indices[i]].getName());
+                }
+            }
         }
     }
 }
