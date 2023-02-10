@@ -2,12 +2,11 @@ import java.util.*;
 import java.text.*;
 
 public class Performer {
-    DecimalFormat df = new DecimalFormat("##.#");
     Random random = new Random();
     private String name;
     private String instrument;
-    private String[] venues = new String[1000];
-    private double[] ratings = new double[1000];
+    private String[] venues;
+    private double[] ratings;
 
     public Performer() {
         name = "Johan";
@@ -20,20 +19,20 @@ public class Performer {
     public Performer(String name, String instrument) {
         this.name = name;
         this.instrument = instrument;
+        this.venues = new String[1000];
+        this.ratings = new double[1000];
     }
 
     public void perform(String venue) {
         if (venues[0] == null) {
-            venues = new String[]{venue};
-            ratings = new double[]{random.nextDouble(1.0, 10.0)};
+            venues[0] = venue;
+            ratings[0] = random.nextDouble(1.0, 10.0);
         } else {
             for (int i = 0; i < ratings.length; i++) {
                 if (ratings[i] == 0) {
                     ratings[i] = random.nextDouble(1.0, 10.0);
-                }
-
-                if(venues[i].equals(null)) {
                     venues[i] = venue;
+                    break;
                 }
             }
         }
