@@ -112,12 +112,14 @@ public class Main {
         }
 
         System.out.println("Please select a performer by their number: ");
-        if (sc.nextInt() != 1 || sc.nextInt() != 2 || sc.nextInt() != 3 || sc.nextInt() != 4 || sc.nextInt() != 5 || sc.nextInt() != 6 || sc.nextInt() != 7 || sc.nextInt() != 8 || sc.nextInt() != 9 || sc.nextInt() != 0) {
+        int perfNumber = (sc.nextInt() - 1);
+
+        if (perfNumber == 0 || perfNumber == 1 || perfNumber == 2 || perfNumber == 3 || perfNumber == 4 || perfNumber == 5 || perfNumber == 6 || perfNumber == 7 || perfNumber == 8 || perfNumber == 9) {
+            System.out.println();
+        } else {
             System.out.println("Retry");
             return;
         }
-
-        int perfNumber = (sc.nextInt() - 1);
 
         System.out.println("Please enter the city where you want them to perform: ");
         String input = sc.next();
